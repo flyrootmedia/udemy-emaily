@@ -40,27 +40,26 @@ passport.use(
       // callback URL gets http but needs https
       proxy: true
     },
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       // the findOne method here will query the DB and look for an existing user
       // with a googleId that matches the returned profile.id. Returns a promise
-      User.findOne({ googleId: profile.id }).then(existingUser => {
-        // "existingUser" will be the record returned by the findOne call,
-        // or null if none exists.
-        if (existingUser) {
-          console.log('existing user found');
-          // call the "done" method (defined by passport). The args are an error handler (which will be null because
-          // there's no error here), and the existing record object that was found
-          done(null, existingUser);
-        } else {
-          // create a new instance of a User and save it to the DB
-          new User({ googleId: profile.id }).save().then(user => {
-            // "user" here is the instance of this record RETRIEVED from the DB after saving
-            // the instance we created. This is a best practice convention (as opposed to passing
-            // it a const with the instance we created here)
-            done(null, user);
-          });
-        }
-      });
+      const existingUser = await User.findOne({ googleId: profile.id });
+
+      // "existingUser" will be the record returned by the findOne call,
+      // or null if none exists.
+      if (existingUser) {
+        // call the "done" method (defined by passport). The args are an error handler (which will be null because
+        // there's no error here), and the existing record object that was found
+        return done(null, existingUser);
+      }
+
+      // create a new instance of a User and save it to the DB
+      const user = await new User({ googleId: profile.id }).save();
+
+      // "user" here is the instance of this record RETRIEVED from the DB after saving
+      // the instance we created. This is a best practice convention (as opposed to passing
+      // it a const with the instance we created here)
+      done(null, user);
     }
   )
 );
