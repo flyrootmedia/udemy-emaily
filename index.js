@@ -9,7 +9,8 @@ const keys = require('./config/keys');
 // individual properties. So in the below cases all we want to do is make sure the files are
 // pulled into the project and executed.
 // NOTE: order here matters. We need to define the user model before accessing it in passport
-require('./models/user');
+require('./models/User');
+require('./models/Survey');
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
@@ -37,6 +38,7 @@ app.use(passport.session());
 // immediately invoke it with the app object
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 // add config for prod public routes if Heroku has set the env var to prod
 if (process.env.NODE_ENV === 'production') {

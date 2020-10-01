@@ -8,6 +8,9 @@ import thunk from 'redux-thunk';
 
 import App from './components/App';
 import reducers from './reducers';
+// temp for testing mail sender before UI is done
+import axios from 'axios';
+window.axios = axios;
 
 const store = createStore(reducers, {}, applyMiddleware(thunk));
 
@@ -17,6 +20,3 @@ ReactDOM.render(
   </Provider>,
   document.querySelector('#root')
 );
-
-console.log('Stripe Key:', process.env.REACT_APP_STRIPE_KEY);
-console.log('Env:', process.env.NODE_ENV);

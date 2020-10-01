@@ -5,7 +5,8 @@ const requireLogin = require('../middlewares/requireLogin');
 module.exports = app => {
   // route to handle post requests with Stripe tokens and add credits to user's account
   // requireLogin will be called by Express. Note that we can pass as many middleware functions
-  // as we want to Express requests, must one of them must eventually handle the actual response.
+  // as we want to Express requests, must be in order we want them executed, and the final one must
+  // handle the actual response.
   app.post('/api/stripe', requireLogin, async (req, res) => {
     const charge = await stripe.charges.create({
       amount: 500,
