@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-//const Schema = mongoose.Schema;
 const { Schema } = mongoose;
 
 // properties may be freely added/removed without blowing anything up
