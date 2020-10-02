@@ -9,7 +9,7 @@ const keys = require('./config/keys');
 // individual properties. So in the below cases all we want to do is make sure the files are
 // pulled into the project and executed.
 // NOTE: order here matters. We need to define the user model before accessing it in passport
-require('./models/user');
+require('./models/user'); // had to change this back to lowercase because of Heroku linux case sensitive issue that I didn't feel like fixing
 require('./models/Survey');
 require('./services/passport');
 
